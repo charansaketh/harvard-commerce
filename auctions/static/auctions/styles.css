@@ -1,0 +1,48 @@
+body {
+    padding: 30px;
+    font-family: "Market Sans", Arial, sans-serif;
+}
+.signin-container {
+    display: flex;
+    justify-content: flex-end;
+}
+.col-md-4 {
+    margin-bottom: 30px;
+}
+.img-container {
+    margin: 20px;
+}
+.img-active {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.watchlist-container {
+    margin-bottom: 20px;
+}
+.listing-img-container {
+    height: 200px;
+}
+.listing-sub-container {
+    margin-bottom: 20px;
+}
+.listing-comment-input {
+    margin-bottom: 10px;
+}
+.desc-container {
+    border: 1px solid lightgray;
+    padding: 10px;
+}
+.comment-container {
+    border: 1px solid lightgrey;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.comment-sub-container {
+    font-size: 12px;
+}
+.details-container {
+    border: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h4>Categories</h4>
+        </div>
+        <div class="row">
+            <ul>
+                {% for row in categories %}
+                    {% if row.category == '' %}
+                        <li>
+                            <a href="{% url 'category' 'none' %}">No Category</a> 
+                            ({{ row.count }}) 
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'category' row.category %}">{{ row.category }}</a> 
+                            ({{ row.count }})
+                        </li>
+                    {% endif %}                  
+                {% empty %}
+                    <h6>No Categories listed.</h6>         
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

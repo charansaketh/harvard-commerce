@@ -1,0 +1,98 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div>
+        <h4>Auction Item: {{ listing.title }}</h4>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="listing-img-container listing-sub-container">
+                <img src="{{ listing.image }}" style="height: 100%; width: 50%; object-fit: contain;" alt="listing-image">
+            </div>
+            <div class="listing-desc-container listing-sub-container">
+                <h4>Item description:</h4>
+                <div class="desc-container">{{ listing.description }}</div>
+            </div>
+            <div class="listing-price-container listing-sub-container">
+                <h4>Price: ${{ listing.price }}</h4>
+            </div>
+            <div class="watchlist-container">
+                {% if watching %}
+                    <button class="btn btn-secondary btn-sm" name="watchlist" type="submit">Remove from Watchlist</button>
+                {% else %}    
+                    <button class="btn btn-light btn-sm" name="watchlist" type="submit">Add to Watchlist</button>
+                {% endif %}    
+            </div>
+            <div class="listing-bid-container listing-sub-container">
+                {% if listing.status == "active" %}
+                    {% if listing.listedby.id != user.id %}
+                        <div>
+                            <small class="text-secondary">
+                                No. of bids: {{ bids }} bid(s). 
+                            </small>
+                            <p>
+                                <input class="form-control" name="newbid" type="number" placeholder="Bid" value="{{ newprice }}" required>
+                            </p>
+                            <small class="text-secondary">
+                                {% if yoursbid %}
+                                    You have highest bid.
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div>
+                            <input class="btn btn-primary" type="submit" name="bidbutton" value="Place Bid">
+                        </div>
+                    {% else %}    
+                        <small class="text-secondary">No. of bids: {{ bids }} bid(s).</small>
+                        <div>
+                            <input type="submit" class="btn btn-danger" name="closelisting" value="Close Listing">
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if lastbid.user.id == user.id %}
+                        <div class="alert alert-success" role="alert">You won the bid!</div>
+                    {% else %}    
+                        <div class="alert alert-danger" role="alert">Listing closed</div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="listing-details-container listing-sub-container">
+                <h4>Details</h4>
+                <ul class="details-container">
+                    <li>Listed By: <a href="{% url 'winner' %}">{{ listing.listedby.username }}</a></li>
+                    <li>Category:
+                        {% if listing.category != '' %}
+                            {{ listing.category }}
+                        {% else %}
+                            Others
+                        {% endif %}    
+                    </li>
+                </ul>
+            </div>
+            <div class="listing-sub-container">
+                <h4>Comments</h4>
+                {% for comment in comments %}
+                <div class="comment-container">
+                    <div>{{ comment.comment }}</div>
+                    <div class="comment-sub-container">
+                        <div>Commented by: {{ comment.user.username }}</div> 
+                        <div>Commented on: {{ comment.date }}</div>
+                    </div>
+                </div>
+                {% empty %}    
+                    <b>No Comments</b>
+                {% endfor %}    
+            </div>
+
+            <div class="listing-sub-container">
+                <h4>New Comment</h4>
+                <div class="listing-comment-input">
+                    <textarea name="comment" class="form-control" placeholder="Please type your comment here..."></textarea>
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-primary" name="postcomment" value="Add Comment">
+                </div>
+            </div>
+        
+        </form>
+    </div>
+{% endblock %}
